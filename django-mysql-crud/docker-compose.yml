@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: django-mysql-crud-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: prueba
+      MYSQL_USER: maru
+      MYSQL_PASSWORD: mCasasola13
+    ports:
+      - "3307:3306"
+    networks:
+      - mynetwork
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django-mysql-crud-web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/opt/back_end
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - mynetwork
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: django-mysql-crud-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    networks:
+      - mynetwork
+
+  adminer:
+    image: adminer
+    container_name: django-mysql-crud-adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

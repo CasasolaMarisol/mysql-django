@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eliminar Persona</title>
+</head>
+<body>
+    <h1>Eliminar Persona</h1>
+    <p>¿Estás seguro de que quieres eliminar a {{ persona.nombre }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Eliminar</button>
+    </form>
+    <a href="{% url 'ver_personas' %}">Volver</a>
+</body>
+</html>
